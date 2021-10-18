@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/8.7.0/firebase-app.min.js" integrity="sha512-NseLA6P2CN6a2/eJvM4pVeECToG0TEZKmUmKh0QTLMTyb3VR+ckABNbCcciYh/DMOtJPve1OcR62YjQqo3KuNw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/8.7.0/firebase-auth.min.js" integrity="sha512-GAEvFso2oksY5JFkHlrfLhZgAV6aL48qxnbxPnbKnNLeG/XsU/c0lh/g9gocZ2RtbRx6VDTqspPEy9ixWvbfzw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/8.7.0/firebase-firestore.min.js" integrity="sha512-u45RqVVZtzdeJn/lMhmWOVAhFnLIiWdPC7P9dLoz1ANlPYidMy4xko80kSZu8D4aDVdMa5A/yWCqM8ZdJIy2TA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.0.0/faker.min.js" integrity="sha512-2ECVqXwWMP1UeHcJ5/xJdVzPSc2KCyzlxNgxpHs2nUsevaZorsAsq9g1JcPCyDbMMiz7Znz8ChgAP7SMVj4FNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <title>Firebase Map App</title>
+</head>
+<body>
+    <div class="app signed-in-div" hidden>
+        <h1>Map App </h1>
+        
+        <div class="info-card flex">
+            <div class="avatar"></div>
+            <div>
+                <h3>Name:<span class="displayname"></span></h3>
+                <h3>Email:<a href="#"><span class="email"></span></a></h3>
+                <div class="button-row">
+                    <button onclick="signOut()" class="btn sign-out-btn">Sign Out</button>
+                    <button onclick="createUser()" class="btn create-btn">Create User</button>
+                </div>
+            </div>
+       </div>
+       <div class="members-list"></div>
+       <div class="small-container">
+       <div id="map"></div>
+
+       <div class="search-area">
+           <label for="location">Enter City:</label>
+           <input type="text" placeholder="location" name="location">
+           <button class="map-btn">Search</button>
+       </div>
+
+        <p class="footer">Footer&copy;</p>
+        </div>
+    </div>
+
+
+    <div class="app signed-out-div">
+        <h1>Firebase/Google-Maps Direction Finder App</h1>
+        <div class='mt-15'>
+            <label for="signin-method">Sign-in Method:</label>
+        <input type="checkbox" name="signin-method">
+        </div>
+        <div class="container flex center">
+            <div class="card">
+                <div class="popup-card flex center column">
+                <h1>Uh-oh, looks like your sessions expired :(</h1>
+                <button onclick="signIn()" class="btn sign-in-btn">Google SignIn</button>
+                </div>
+                <div class="email-card">
+                    <form class="form flex center column">
+                    <div class="flex evenly">
+                        <div class="form-div">
+                            <label for="email">Email:</label>
+                            <input type="text" name="email" id="email" placeholder="email..." autocomplete="off">
+                        </div>
+                        <div class="form-div">
+                            <label for="password">Password:</label>
+                            <input type="text" name="password" id="password" placeholder="password..." autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="flex center">
+                        <div class="form-div">
+                            <button class='email-btn btn'>Enter</button>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <p class="footer">Footer&copy;</p>
+    </div>
+
+
+
+    <script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_WjzuwFFjPLWbrjvmM84VUfDWenF_Nxk&callback=initMap">
+</script>
+
+
+
+<script>
+    function initMap(){
+        console.log("hello from google functions!")
+
+        map = new google.maps.Map(document.getElementById("map"), {
+    center: { lat: -34.397, lng: 150.644 },
+    zoom: 8,
+  });
+    }
+</script>
+    <script>
+
+
+
+
+
+
+        
+
+
+// console.log(initializeApp)
+console.log(firebase)
+        var signInMethod = document.querySelector("input[name='signin-method']")
+        var displayNameEl = document.querySelector(".displayname")
+        var emailEl = document.querySelector(".email")
+        var emailCard = document.querySelector(".email-card")
+        var membersEl = document.querySelector(".members-list")
+        var popUpCard = document.querySelector(".popup-card")
+        var signedInDiv = document.querySelector(".signed-in-div")
+        var signedOutDiv = document.querySelector(".signed-out-div")
+        var emailBtn = document.querySelector(".email-btn")
+        var mapBtn = document.querySelector(".map-btn")
+
+
+        mapBtn.onclick=(e)=>{
+            var location = document.querySelector("input[name='location']")
+            console.log(location)
+        }
+
+
+
+
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAKykusPiQtko-kd0zW510ziI7h6f_qXEc",
+  authDomain: "fir-cli721.firebaseapp.com",
+  projectId: "firebasecli721",
+  storageBucket: "firebasecli721.appspot.com",
+  messagingSenderId: "738424307835",
+  appId: "1:738424307835:web:bd6169bb274a4e32e7e2de"
+};
+
+// Initialize Firebase
+const app = firebase.initializeApp(firebaseConfig);
+
+        signInMethod.onclick=(e)=>{
+            console.log('clicked')
+            console.log(e.target.checked)
+            if(e.target.checked){
+                popUpCard.classList.add("hide-popup")
+            }
+            else{
+                popUpCard.classList.remove("hide-popup")
+
+            }
+        }
+
+
+        function signOut(){
+            console.log('signOut fired')
+            firebase.auth().signOut()
+        }
+
+        function signIn(){
+            let provider = new firebase.auth.GoogleAuthProvider;
+            console.log("Provier:",provider)
+            firebase.auth().signInWithPopup(provider).then(()=>console.log('success'))
+            .catch(err=>{
+              console.log("Error wit popup")
+            })
+        }
+
+
+        function createUser(){
+
+            let {email,phone,website,username} = faker.helpers.createCard()
+            let user = {email,phone,website,username} 
+
+            firebase.firestore().collection("cowherdmembers").add(user)
+        }
+
+
+
+        firebase.firestore().collection("cowherdmembers").onSnapshot(snapshot=>{
+            let data = snapshot.docs.map((s)=>({id:s.ref.id,...s.data()}))
+            console.log(data)
+
+            printMembers(data)
+        })
+
+
+        function printMembers(data){
+            membersEl.innerHTML = "";
+
+            data.forEach(user=>{
+                let div = document.createElement("div");
+                    div.className="member-div flex evenly"
+                    div.innerHTML = `<h4>${user.username}</h4><div><h5><a href="#">${user.email.length < 10 ? user.email : `${user.email.slice(0,7)}...`}</a></h5><h5>${user.website}</h5></div><div><span class='close' data-id="${user.phone}">&times;</span></div></div>`
+
+                    membersEl.append(div)
+                    div.querySelector(".close").onclick=(e)=>{
+                        let phoneId = e.target.getAttribute('data-id');
+                            console.log("PhoneID: " + phoneId)
+                        firebase.firestore().collection("cowherdmembers").where("phone","==",phoneId).onSnapshot(s=>{
+                            s.docs.map(s=>s.ref.delete())
+                        })
+                    }
+
+            })
+
+        }
+
+
+
+
+        firebase.auth().onAuthStateChanged(user=>{
+            console.log("authState fired",user);
+
+            if(user){
+                signedInDiv.hidden = false;
+                signedOutDiv.hidden = true;
+                emailEl.innerHTML = user.email;
+                displayNameEl.innerHTML = user.displayName
+                document.querySelector(".avatar").innerHTML = `<img src=${user.photoURL} alt="img" class="avatar-img">`
+            }
+            else{
+                signedOutDiv.hidden = false;
+                signedInDiv.hidden = true;
+            }
+        })
+
+
+
+emailBtn.onclick=(e)=>{
+    e.preventDefault()
+
+    let user = {
+        email:document.querySelector("input[name='email']").value,
+        password:document.querySelector("input[name='password']").value
+    }
+
+    firebase.auth().createUserWithEmailAndPassword(user.email,user.password).then(()=>console.log('success'))
+            .catch(err=>{
+                alert(err.message + " :(")
+            })
+}
+
+
+
+        // let airports = ["LAX", "LB", "Chicago", "Atlanta", "Miami", "Boston", "JFK", "SF", "Montreal"];
+
+
+        // let routes =[
+        //     ["LAX", "Boston"],
+        //     ["LAX", "Chicago"],
+        //     ["Atlanta", "JFK"],
+        //     ["LB", "Montreal"],
+        //     ["Boston", "SF"],
+        //     ["LAX", "Miami"],
+        //     ["Miami", "Montreal"],
+        //     ["Miami", "LB"],
+        //     ["Montreal", "Boston"],
+        
+        // ]
+
+
+        // let adjacencyList = new Map();
+
+
+        // function addNode(node){
+        //     console.log(node)
+        //     adjacencyList.set(node,[])
+        // }
+
+        // function addEdge(n1,n2){
+        //     adjacencyList.get(n1).push(n2)
+        //     adjacencyList.get(n2).push(n1)
+        // }
+
+        // airports.forEach(addNode)
+        // routes.forEach(r=>addEdge(...r))
+        
+        // adjacencyList.set("pilot",[])
+        // console.log(adjacencyList)
+
+
+        // function bfs(start,end){
+
+        //     let queue = [start]
+        //     let set = new Set()
+
+        //     while(queue.length){
+        //         let curr = queue.shift();
+        //         set.add(curr);
+        //         let children = adjacencyList.get(curr);
+        //         for(let child of children){
+        //             if(!set.has(child)){
+        //                 set.add(child)
+        //                 queue.push(child)
+        //             }
+
+        //             if(child === end){
+        //                 console.log(`${curr} flies to ${end}.`)
+        //             }
+        //         }
+        //     }
+        // }
+
+
+        // bfs("Chicago","Boston")
+    </script>
+</body>
+</html>

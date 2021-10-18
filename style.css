@@ -1,0 +1,150 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Display:wght@200&display=swap');
+
+body{
+    height:100vh;
+    width:100vw;
+    font-family: 'Noto Sans Display', sans-serif;
+}
+
+.app{
+    height:100vh;
+    width:100vw;
+    padding:2em;
+    text-align:center;
+    background:linear-gradient(lightgray,gray);
+    overflow:hidden;
+}
+
+.mt-15{
+    margin-top:15px;
+}
+
+.container{
+    height:80vh;
+    width:100%;
+}
+
+.flex{
+    display:flex;
+}
+
+.center{
+    align-items:center;
+    justify-content: center;
+}
+
+.evenly{
+    justify-content: space-evenly;
+    align-items:center;
+}
+
+.column{
+    flex-direction:column;
+}
+
+.popup-card, .email-card{
+    height:100%;
+    width:100%;
+    position:absolute;
+}
+
+.popup-card{
+    background:rgb(85, 80, 81);
+    z-index:1;
+    transition:1s ease;
+    color:white;
+}
+
+form{
+    height:100%;
+    width:100%;
+}
+
+.card{
+    width:90%;
+    height:200px;
+    /* border:1px solid black; */
+    position:relative;
+    overflow:hidden;
+    border-radius:100px;
+}
+
+.sign-in-btn{
+    margin-top:15px;
+    padding:.5em;
+    width:150px;
+    cursor:pointer;
+}
+
+.button-row{
+    display:flex;
+    align-items:center;
+    justify-content: flex-start;
+    padding:.5em;
+}
+
+.email-btn{
+    width:100px;
+    margin-top:20px;
+    padding:.5em;
+    border-radius:100px;
+}
+
+.hide-popup{
+    transform:translateX(-100%)
+}
+
+.column{
+    flex-direction:column;
+}
+
+.email-btn{
+    margin-top:15px;
+}
+
+
+input{
+    width:100px;
+    padding:.5em;
+}
+
+.create-btn{
+    margin-top:5px;
+    background:green;
+    margin-left:10px;
+}
+
+.sign-out-btn{
+    background:red;
+    margin-top:5px;
+}
+
+.small-container{
+    height:65vh;
+    display:flex;
+    align-items:center;
+    flex-direction:column;
+    justify-content: space-evenly;
+}
+
+
+#map{
+    height:200px;
+    width:100%;
+    position:relative;
+    top:35px
+}
+
+
+@media screen and (max-width:500px){
+    .card{
+        font-size:10px;
+        width:98%;
+    }
+}
